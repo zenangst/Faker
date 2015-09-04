@@ -23,7 +23,7 @@ public class Parser {
 
   public func fetch(key: String) -> String {
     var parsed: String = ""
-    var parts = split(key) {$0 == "."}
+    var parts = key.characters.split {$0 == "."}.map { String($0) }
 
     if parts.count > 0 {
       var keyData = data[locale]["faker"]

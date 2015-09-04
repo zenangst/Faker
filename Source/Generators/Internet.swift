@@ -23,15 +23,15 @@ public class Internet: Generator {
     if let sep = separator {
       gap = sep
     }
-    return gap.join(components[0..<count]).stringByReplacingOccurrencesOfString("'", withString: "").lowercaseString
+    return components[0..<count].joinWithSeparator(gap).stringByReplacingOccurrencesOfString("'", withString: "").lowercaseString
   }
 
   public func domainName(alphaNumericOnly: Bool = true) -> String {
-    return domainWord(alphaNumericOnly: alphaNumericOnly) + "." + domainSuffix()
+    return domainWord(alphaNumericOnly) + "." + domainSuffix()
   }
 
   public func domainWord(alphaNumericOnly: Bool = true) -> String {
-    var nameParts = split(generate("company.name")) {$0 == " "}
+    let nameParts = generate("company.name").characters.split {$0 == " "}.map { String($0) }
     var name = ""
     if let first = nameParts.first {
       name = first
@@ -48,11 +48,11 @@ public class Internet: Generator {
   }
 
   public func email() -> String {
-    return "@".join([username(), domainName()])
+    return [username(), domainName()].joinWithSeparator("@")
   }
 
   public func freeEmail() -> String {
-    return "@".join([username(), generate("internet.free_email")])
+    return [username(), generate("internet.free_email")].joinWithSeparator("@")
   }
 
   public func safeEmail() -> String {
@@ -60,11 +60,11 @@ public class Internet: Generator {
     let count = UInt32(topLevelDomains.count)
     let topLevelDomain = topLevelDomains[Int(arc4random_uniform(count))]
 
-    return "@".join([username(), "example." + topLevelDomain])
+    return [username(), "example." + topLevelDomain].joinWithSeparator("@")
   }
 
   public func password(minimumLength: Int = 8, maximumLength: Int = 16) -> String {
-    var temp = lorem.characters(amount: minimumLength)
+    var temp = lorem.characters(minimumLength)
     let diffLength = maximumLength - minimumLength
     if diffLength > 0 {
       let diffRandom = Int(arc4random_uniform(UInt32(diffLength + 1)))
@@ -88,7 +88,7 @@ public class Internet: Generator {
       components.append(String(format: "%X", arc4random() % 65535))
     }
 
-    return ":".join(components)
+    return components.joinWithSeparator(":")
   }
 
   public func url() -> String {

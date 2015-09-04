@@ -13,11 +13,11 @@ public class Lorem: Generator {
       words.append(word())
     }
 
-    return " ".join(words)
+    return words.joinWithSeparator(" ")
   }
 
   public func character() -> String {
-    return characters(amount: 1)
+    return characters(1)
   }
 
   public func characters(amount: Int = 255) -> String {
@@ -34,7 +34,7 @@ public class Lorem: Generator {
   }
 
   public func sentence(wordsAmount: Int = 4) -> String {
-    var sentence = words(amount: wordsAmount) + "."
+    var sentence = words(wordsAmount) + "."
     sentence.replaceRange(sentence.startIndex...sentence.startIndex, with: String(sentence[sentence.startIndex]).capitalizedString)
     return sentence
   }
@@ -45,11 +45,11 @@ public class Lorem: Generator {
       sentences.append(sentence())
     }
 
-    return " ".join(sentences)
+    return sentences.joinWithSeparator(" ")
   }
 
   public func paragraph(sentencesAmount: Int = 3) -> String {
-    return sentences(amount: sentencesAmount)
+    return sentences(sentencesAmount)
   }
 
   public func paragraphs(amount: Int = 3) -> String {
@@ -58,6 +58,6 @@ public class Lorem: Generator {
       paragraphs.append(paragraph())
     }
 
-    return "\n".join(paragraphs)
+    return paragraphs.joinWithSeparator("\n")
   }
 }
